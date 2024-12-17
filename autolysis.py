@@ -116,7 +116,7 @@ with open(file=sys.argv[1], mode="rb") as f:
 with open(file=sys.argv[1], mode="r",encoding=result['encoding']) as f:
     data = ''.join([f.readline() for i in range(10)])
 df = pd.read_csv(sys.argv[1],encoding=result['encoding'])
-os.makedirs(sys.argv[1].split(".csv")[0].split("\")[-1],exist_ok=True)
+os.makedirs(sys.argv[1].split(".csv")[0].split("\\")[-1],exist_ok=True)
 
 
 
@@ -351,7 +351,7 @@ content = (
     "Do not add any comments to python code."
     "Do not make your own data,the dataset is stored in dataframe named ```df``` ."
     "Export/save the chart/subplot as png file."
-    f"save the chart in {sys.argv[1].split(".csv")[0].split("\")[-1]} folder."
+    f"save the chart in {sys.argv[1].split(".csv")[0].split("\\")[-1]} folder."
 )
 
 functions = [
@@ -427,7 +427,7 @@ content = (
 "Generate a correlation matrix for the dataset and identify the pair of columns with the highest correlation (excluding 1.0 correlations)."
 "Then, generate a scatter plot for this pair of columns using matplotlib."
 "The plot should have appropriate labels and title."
-f"Save/Exort both the scatter plot and heatmap of the correlation matrix separately in two png files inside {sys.argv[1].split(".csv")[0].split("\")[-1]} folder."
+f"Save/Exort both the scatter plot and heatmap of the correlation matrix separately in two png files inside {sys.argv[1].split(".csv")[0].split("\\")[-1]} folder."
 )
 
 user_content = """
@@ -537,7 +537,7 @@ def encode_image(image_path):
   with open(image_path, "rb") as image_file:
     return base64.b64encode(image_file.read()).decode('utf-8')
   
-image_path = sys.argv[1].split(".csv")[0].split("\")[-1]+"/"+CHART_BINNABLE
+image_path = sys.argv[1].split(".csv")[0].split("\\")[-1]+"/"+CHART_BINNABLE
 
 # Getting the base64 string
 base64_image = encode_image(image_path)
@@ -627,9 +627,9 @@ readME['skewness'] = {
 
 # INSIGHTS FROM THE CHARTS WHICH ARE GENERATED
 # visualization_data = []
-# for file in os.listdir(sys.argv[1].split(".csv")[0].split("\")[-1]):
+# for file in os.listdir(sys.argv[1].split(".csv")[0].split("\\")[-1]):
 #   if file.endswith(".png"):
-#     b64_image = encode_image(os.path.join(sys.argv[1].split(".csv")[0].split("\")[-1],file))
+#     b64_image = encode_image(os.path.join(sys.argv[1].split(".csv")[0].split("\\")[-1],file))
 #     SYS_CONTENT = """
 #     You are provided with a png file.
 #     Analyze the chart and extract insights from it.
@@ -704,13 +704,13 @@ def process_all_images(file_folder):
     readME['insights'] = visualization_data
 
 # Run the function to process all images
-process_all_images(sys.argv[1].split(".csv")[0].split("\")[-1])
+process_all_images(sys.argv[1].split(".csv")[0].split("\\")[-1])
 print("Images vis:",time.time() - start)
 
 
 
 # # Create a ReadME.md file using the given data
-markdown = f"# Analysis Report for `{sys.argv[1].split(".csv")[0].split("\")[-1]}`\n\n"
+markdown = f"# Analysis Report for `{sys.argv[1].split(".csv")[0].split("\\")[-1]}`\n\n"
 markdown += "## Dataset Overview\n"
 markdown += f"- **Number of Rows**: {readME['basic'].get('num_rows', 'N/A')}\n"
 markdown += f"- **Number of Columns**: {readME['basic'].get('num_columns', 'N/A')}\n"
@@ -779,7 +779,7 @@ Even include MIT License in the readME
 """
 r = request_llm(functions,USER_CONTENT,SYS_CONTENT,"readME_md_creator")
 readME = json.loads(r.json()['choices'][0]['message']['function_call']['arguments'])['readme_content']
-with open(f"{sys.argv[1].split(".csv")[0].split("\")[-1]}/README.md","w") as f:
+with open(f"{sys.argv[1].split(".csv")[0].split("\\")[-1]}/README.md","w") as f:
     f.write(readME)
 print(readME)
 
